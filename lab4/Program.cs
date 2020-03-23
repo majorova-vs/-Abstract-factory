@@ -2,55 +2,73 @@
 
 namespace lab4
 {
+    /// <summary>
+    /// Настройка вида кнопок/ярлыков
+    /// </summary>
     interface IButton
     {
         void Paint();
     }
-
+    /// <summary>
+    /// Настройка вида чекбоксов
+    /// </summary>
     interface ICheckBox
     {
         void Paint();
     }
-
+    /// <summary>
+    /// Выбор временной зоны
+    /// </summary>
     interface ITimeZone
     {
         void Set();
     }
-
+    /// <summary>
+    /// Выбор языка
+    /// </summary>
     interface ILanguage
     {
         void Set();
     }
-
+    /// <summary>
+    /// Выбор региона
+    /// </summary>
     interface IRegion
     {
         void Set();
     }
-    //Задание клавиш переключения раскладки клавиатуры 
+    /// <summary>
+    /// Задание клавиш переключения раскладки клавиатуры 
+    /// </summary>
     interface ISwkeyblay
     {
         void Set();
     }
-
+    /// <summary>
+    /// Создание пользователя
+    /// </summary>
     interface IUser
     {
         void Create();
     }
-    //Настройка устройств
+    /// <summary>
+    /// Настройка внешних устройств 
+    /// </summary>
     interface IDevice
     {
         void Set();
     }
-
-    //Настройка жёсткого диска (разбивание на разделы)
+    /// <summary>
+    /// Настройка жёсткого диска (разбивание на разделы)
+    /// </summary>
     interface IHardDisk
     {
         void Setup();
     }
-    /**
-     * Абстрактная фабрика знает обо всех абстрактных типах
-     * продуктов.
-     */
+    /// <summary>
+    /// Абстрактная фабрика знает обо всех абстрактных типах
+    /// настроек.
+    /// </summary>
     interface IGUIFactory {
         IButton CreateButton();
         ICheckBox CreateCheckbox();
@@ -63,33 +81,54 @@ namespace lab4
         IHardDisk SetupHardDisk();
 
     }
+    /// <summary>
+    /// Жёсткий диск Виндоус
+    /// </summary>
     class WinHardDisk : IHardDisk
     {
         public void Setup() { }
     }
+    /// <summary>
+    /// Внешние девайсы
+    /// </summary>
     class WinDevice : IDevice
     {
         public void Set() { }
     }
+    /// <summary>
+    /// Новый пользователь 
+    /// </summary>
     class WinUser : IUser
     {
         public void Create() { Console.WriteLine("User is created"); }
     }
+    /// <summary>
+    /// Задание клавиш переключения раскладки клавиатуры 
+    /// </summary>
     class WinSwKeybl : ISwkeyblay
     {
         public void Set() { }
     }
+    /// <summary>
+    /// Выбор языка
+    /// </summary>
     class WinLanguage : ILanguage
     {
         public void Set()
         {
-
+            Console.WriteLine("Language selected");
         }
     }
+    /// <summary>
+    /// Выбор региона
+    /// </summary>
     class WinRegion : IRegion
     {
         public void Set() {}
     }
+    /// <summary>
+    /// Выбор временной зоны
+    /// </summary>
     class WinTimeZone : ITimeZone
     {
         public void Set()
@@ -131,7 +170,10 @@ namespace lab4
     }
     class MacLanguage : ILanguage
     {
-        public void Set() { }
+        public void Set()
+        {
+            Console.WriteLine("Language selected");
+        }
     }
     class MacRegion : IRegion
     {
@@ -179,7 +221,10 @@ namespace lab4
     }
     class LinLanguage : ILanguage
     {
-        public void Set() { }
+        public void Set()
+        {
+            Console.WriteLine("Language selected");
+        }
     }
     class LinRegion : IRegion
     {
@@ -208,9 +253,14 @@ namespace lab4
         }
     }
 
-    /** Каждая конкретная фабрика знает и создаёт только продукты
-    *своей вариации.
-    */
+    /// <summary>
+    /// Каждая конкретная фабрика знает и создаёт только настройки
+    /// своей вариации.
+    /// </summary> 
+
+    /// <summary>
+    /// Фабрика Windows
+    /// </summary> 
     class WinFactory : IGUIFactory
     {
         public IButton CreateButton()
@@ -250,6 +300,10 @@ namespace lab4
             return new WinHardDisk();
         }
     }
+
+    /// <summary>
+    /// Фабрика MacOS
+    /// </summary> 
     class MacFactory : IGUIFactory
     {
         public IButton CreateButton()
@@ -289,6 +343,10 @@ namespace lab4
             return new MacHardDisk();
         }
     }
+
+    /// <summary>
+    /// Фабрика Linux
+    /// </summary> 
     class LinFactory : IGUIFactory
     {
         public IButton CreateButton()
@@ -329,6 +387,9 @@ namespace lab4
         }
     }
 
+    /// <summary>
+    /// Часть приложения, отвечающая за настройку параметров системы
+    /// </summary> 
     class Application
     {
         private IGUIFactory Factory { get; set; }
@@ -354,13 +415,17 @@ namespace lab4
         public void RegionSetting()
         {
             this.Region = Factory.SetRegion();
+            Region.Set();
             this.TimeZone = Factory.SetTimeZone();
+            TimeZone.Set();
             this.Language = Factory.SetLanguage();
+            Language.Set();
         }
 
         public void CreateUser()
         {
             this.User = Factory.CreateUser();
+            User.Create();
         }
 
         public void DeviceSetting()
@@ -372,7 +437,6 @@ namespace lab4
 
         public void Paint()
         {
-            User.Create();
             Button.Paint();
             CheckBox.Paint();
         }
